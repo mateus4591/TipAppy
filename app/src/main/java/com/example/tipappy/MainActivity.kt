@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTipDescription: TextView
     private lateinit var seekBarPercentage: SeekBar
     private lateinit var roundUpSwitch: Switch
+    private lateinit var splitAmongPeopleBar: SeekBar
+    private lateinit var splitValue: TextView
+    private var globalSplitBar = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         tvTipDescription = findViewById(R.id.tvTipDescription)
         seekBarPercentage = findViewById(R.id.seekBarPercentage)
         roundUpSwitch = findViewById(R.id.roundUpSwitch)
+        splitAmongPeopleBar = findViewById(R.id.splitAmongPeopleBar)
+        splitValue = findViewById(R.id.splitValue)
+
 
 
         seekBarPercentage.progress = INITIAL_TIP_PERCENT
@@ -49,7 +55,6 @@ class MainActivity : AppCompatActivity() {
 
         seekBarPercentage.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                Log.i(TAG, "onProgressChanged $p1")
                 percentageText.text = "$p1%"
                 computeTipAndTotal()
                 updateTipDescription(p1)
@@ -88,6 +93,24 @@ class MainActivity : AppCompatActivity() {
                 computeTipAndTotal()
             }
         }
+        splitAmongPeopleBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                globalSplitBar = p1
+                splitValue.text = p1.toString()
+                computeTipAndTotal()
+
+
+            }
+
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+
+            }
+
+        })
 
 
     }
@@ -112,23 +135,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun computeTipAndTotal() {
-        if (billAmountUserInput.text.isEmpty()) {
-            return
-        }
+        if (billAmountUserInput.text.isEmpty()) return
         //1. Get the value of the base tip and percent
         val baseAmount = billAmountUserInput.text.toString().toDouble()
         val tipPercent = seekBarPercentage.progress
         //2. Compute the tip and total
 
-        var tipAmount = (baseAmount * tipPercent / 100)
-        val totalAmount = tipAmount + baseAmount
+        var tipAmount = (baseAmount * tipPercent / 100) / globalSplitBar
+        var totalAmount = (tipAmount + baseAmount) / globalSplitBar
         if (roundUpSwitch.isChecked) {
             tipAmount = ceil(tipAmount)
+            totalAmount = ceil(totalAmount)
         }
+
 
         //3. Update The UI
         tipValue.text = "%.2f".format(tipAmount)
         totalValue.text = "%.2f".format(totalAmount)
 
     }
+
 }

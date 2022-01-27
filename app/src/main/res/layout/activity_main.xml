@@ -58,6 +58,7 @@
         android:layout_marginStart="24sp"
         android:ems="8"
         android:hint="Bill Amount"
+        android:inputType="numberDecimal"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/baseText"
         app:layout_constraintStart_toEndOf="@id/baseText"
@@ -107,11 +108,44 @@
         android:id="@+id/roundUpSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
         android:minHeight="48dp"
-
         android:text="Round Up Tip?"
         app:layout_constraintBottom_toTopOf="@id/totalText"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <SeekBar
+        android:id="@+id/splitAmongPeopleBar"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:min="1"
+        android:max="10"
+        app:layout_constraintStart_toStartOf="@+id/roundUpSwitch"
+        app:layout_constraintTop_toBottomOf="@+id/roundUpSwitch" />
+
+    <TextView
+        android:id="@+id/peopleToSplit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="People to split"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/splitAmongPeopleBar"
+        app:layout_constraintStart_toStartOf="@+id/splitAmongPeopleBar"
+        app:layout_constraintTop_toBottomOf="@+id/splitAmongPeopleBar" />
+
+    <TextView
+        android:id="@+id/splitValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:layout_marginTop="8dp"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/peopleToSplit"
+        app:layout_constraintStart_toStartOf="@+id/peopleToSplit"
+        app:layout_constraintTop_toBottomOf="@id/peopleToSplit" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
